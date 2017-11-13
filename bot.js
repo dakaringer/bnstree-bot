@@ -15,14 +15,16 @@ client.on('message', async message => {
     let characterRe = /bnstree\.com\/character\/(eu|na|kr)\/(\S+)/gi
     let characterMatch = characterRe.exec(message.content)
 
-    if (characterMatch) {
-        let region = characterMatch[1]
-        let name = decodeURIComponent(characterMatch[2])
+    if (process.env.NODE_ENV === 'production' || message.channel.id === process.env.TEST_CHANNEL) {
+        if (characterMatch) {
+            let region = characterMatch[1]
+            let name = decodeURIComponent(characterMatch[2])
 
-        let embed = await getCharacterEmbed(region, name, message)
-        message.channel.send('', {embed: embed})
-    } else if (message.content === 'ping') {
-        message.channel.send('pong')
+            let embed = await getCharacterEmbed(region, name, message)
+            message.channel.send('', {embed: embed})
+        } else if (message.content === 'ping') {
+            message.channel.send('pong')
+        }
     }
 })
 
