@@ -49,6 +49,7 @@ const accessories = {
     belt: 'Belt',
     gloves: 'Gloves',
     soul: 'Soul',
+    'soul-2': 'Spirit',
     guard: 'Pet',
     singongpae: 'Soul Badge',
     rune: 'Mystic Badge'
@@ -105,8 +106,6 @@ async function getCharacterEmbed(region, name) {
                             .defend_critical_value} (${stats.total_ability.defend_critical_rate}%)`,
                     inline: true
                 }
-
-                console.log(equip)
 
                 let equipField = {
                     name: ':dagger: Equipment',
