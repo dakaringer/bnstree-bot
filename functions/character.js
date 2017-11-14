@@ -55,6 +55,14 @@ const accessories = {
     rune: 'Mystic Badge'
 }
 
+function countSS(pieces) {
+    let result = {}
+    pieces.forEach(piece => {
+        result[piece] = result[piece] ? result[piece] + 1 : 1
+    })
+    return result
+}
+
 async function getCharacterEmbed(region, name) {
     return new Promise((resolve, reject) => {
         gqlClient
@@ -119,6 +127,14 @@ async function getCharacterEmbed(region, name) {
                     }
                 })
 
+                let ssCount = countSS(equip.soulshield.pieceNames)
+                let soulshieldField = {
+                    name: 'Soul Shield',
+                    value: ''
+                }
+                for (let set in ssCount) {
+                    soulshieldField.value += `[${ssCount[set]}] ${set}`
+                }
                 let embed = {
                     title: `${character.name} [${character.account}]`,
                     color: 0x00bfff,
@@ -131,7 +147,7 @@ async function getCharacterEmbed(region, name) {
                     description: `Level ${character.level[0]}${character.level[1]
                         ? ` • HM Level ${character.level[1]}`
                         : ''}\n${character.className}\n${character.server}`,
-                    fields: [attackField, defenseField, equipField],
+                    fields: [attackField, defenseField, equipField, soulshieldField],
                     footer: {
                         text: 'BnSTree',
                         icon_url: 'https://bnstree.com/android-chrome-192x192.png'
@@ -140,6 +156,7 @@ async function getCharacterEmbed(region, name) {
                 resolve(embed)
             })
             .catch(e => {
+                console.log(e)
                 resolve({title: 'Character not found'})
             })
     })
