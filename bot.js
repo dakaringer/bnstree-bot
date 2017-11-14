@@ -47,7 +47,7 @@ client.on('message', async message => {
                     let query = args.splice(1).join(' ')
                     let exact = false
                     if (flags) {
-                        flags.indexOf('-e') !== -1 || flags.indexOf('-exact') !== -1
+                        exact = flags.indexOf('-e') !== -1 || flags.indexOf('-exact') !== -1
                     }
 
                     let embed = await getMarketEmbed(region, query, exact)
