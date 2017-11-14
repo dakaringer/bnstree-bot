@@ -20,7 +20,7 @@ client.on('message', async message => {
             let region = characterMatch[1]
             let name = decodeURIComponent(characterMatch[2])
 
-            let embed = await getCharacterEmbed(region, name, message)
+            let embed = await getCharacterEmbed(region, name)
             message.channel.send('', {embed: embed})
         } else if (message.content === 'ping') {
             message.channel.send('pong')

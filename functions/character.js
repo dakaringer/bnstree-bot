@@ -140,8 +140,7 @@ async function getCharacterEmbed(region, name) {
                 resolve(embed)
             })
             .catch(e => {
-                console.error(e)
-                reject(e)
+                resolve({title: e.message.split('\n')[0].split(':')[1]})
             })
     })
 }
