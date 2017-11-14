@@ -1,6 +1,7 @@
 require('dotenv').config({silent: true})
 const Discord = require('discord.js')
 const getCharacterEmbed = require('./functions/character')
+const getMarketEmbed = require('./functions/market')
 
 const client = new Discord.Client()
 const token = process.env.DISCORD_TOKEN
@@ -22,6 +23,38 @@ client.on('message', async message => {
 
             let embed = await getCharacterEmbed(region, name)
             message.channel.send('', {embed: embed})
+        } else if (message.content.startsWith('!')) {
+            let flagRe = /(-\w+)/g
+            let flags = message.content.match(flagRe)
+            let args = message.content
+                .replace(flagRe, '')
+                .substring(1)
+                .split(' ')
+            let cmd = args[0]
+            args = args.splice(1)
+
+            switch (cmd) {
+                case 'character': {
+                    let region = args[0]
+                    let name = args.splice(1).join(' ')
+
+                    let embed = await getCharacterEmbed(region, name)
+                    message.channel.send('', {embed: embed})
+                    break
+                }
+                case 'market': {
+                    let region = args[0]
+                    let query = args.splice(1).join(' ')
+                    let exact = false
+                    if (flags) {
+                        flags.indexOf('-e') !== -1 || flags.indexOf('-exact') !== -1
+                    }
+
+                    let embed = await getMarketEmbed(region, query, exact)
+                    message.channel.send('', {embed: embed})
+                    break
+                }
+            }
         } else if (message.content === 'ping') {
             message.channel.send('pong')
         }
