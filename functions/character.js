@@ -140,7 +140,7 @@ async function getCharacterEmbed(region, name) {
                 resolve(embed)
             })
             .catch(e => {
-                resolve({title: e.message.split('\n')[0].split(':')[1]})
+                resolve({title: 'Character not found'})
             })
     })
 }
