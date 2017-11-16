@@ -12,6 +12,17 @@ client.on('ready', () => {
     console.log('I am ready!')
 })
 
+const helpMsg = `\`\`\`
+Official BnSTree Discord Bot
+
+Commands:
+  !character [region] [name]        Search character profile
+
+  !market [region] [item]           Search marketplace
+  Options:
+    -e, -exact                      Search exact item name
+\`\`\``
+
 client.on('message', async message => {
     let characterRe = /bnstree\.com\/character\/(eu|na|kr)\/(\S+)/gi
     let characterMatch = characterRe.exec(message.content)
@@ -53,6 +64,9 @@ client.on('message', async message => {
                     let embed = await getMarketEmbed(region, query, exact)
                     message.channel.send('', {embed: embed})
                     break
+                }
+                case 'help': {
+                    message.channel.send(helpMsg)
                 }
             }
         } else if (message.content === 'ping') {
