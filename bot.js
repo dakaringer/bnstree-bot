@@ -32,7 +32,7 @@ client.on('message', async message => {
             let region = characterMatch[1]
             let name = decodeURIComponent(characterMatch[2])
 
-            let embed = await getCharacterEmbed(region, name)
+            let embed = await getCharacterEmbed(region, name, true)
             message.channel.send('', {embed: embed})
         } else if (message.content.startsWith('!')) {
             let flagRe = /(-\w+)/g

@@ -63,7 +63,7 @@ function countSS(pieces) {
     return result
 }
 
-async function getCharacterEmbed(region, name) {
+async function getCharacterEmbed(region, name, lite = false) {
     return new Promise((resolve, reject) => {
         gqlClient
             .query({
@@ -77,64 +77,71 @@ async function getCharacterEmbed(region, name) {
                 let character = json.data.Character.general
                 let stats = json.data.Character.statData
                 let equip = json.data.Character.equipData
+                let fields = []
 
-                let attackField = {
-                    name: `:crossed_swords: Attack :small_orange_diamond: ${stats.point_ability
-                        .offense_point}P`,
-                    value:
-                        `**Attack Power** - ${stats.total_ability.attack_power_value}\n` +
-                        `**Accuracy** - ${stats.total_ability.attack_hit_value} (${stats
-                            .total_ability.attack_hit_rate}%)\n` +
-                        `**Critical** - ${stats.total_ability.attack_critical_value} (${stats
-                            .total_ability.attack_critical_rate}%)\n` +
-                        `**Critical Damage** - ${stats.total_ability
-                            .attack_critical_damage_value} (${stats.total_ability
-                            .attack_critical_damage_rate}%)\n`,
-                    inline: true
-                }
-
-                classElements[character.classCode].forEach(e => {
-                    let value = stats.total_ability[e]
-                    let rate = stats.total_ability[e.substr(0, e.length - 5) + 'rate']
-                    attackField.value += `**${elements[e]}** - ${value} (${rate}%)\t\n`
-                })
-
-                let defenseField = {
-                    name: `:shield: Defense :small_orange_diamond: ${stats.point_ability
-                        .defense_point}P`,
-                    value:
-                        `**HP** - ${stats.total_ability.max_hp}\n` +
-                        `**Defense** - ${stats.total_ability.defend_power_value} (${stats
-                            .total_ability.defend_physical_damage_reduce_rate}%)\n` +
-                        `**Evasion** - ${stats.total_ability.defend_dodge_value} (${stats
-                            .total_ability.defend_dodge_rate}%)\n` +
-                        `**Block** - ${stats.total_ability.defend_parry_value} (${stats
-                            .total_ability.defend_parry_rate}%)\n` +
-                        `**Critical Defense** - ${stats.total_ability
-                            .defend_critical_value} (${stats.total_ability.defend_critical_rate}%)`,
-                    inline: true
-                }
-
-                let equipField = {
-                    name: ':dagger: Equipment',
-                    value: `**Weapon** - ${equip.weapon.name}\n`
-                }
-
-                equip.accessories.forEach(acc => {
-                    let type = acc.type
-                    if (acc.grade !== 'empty' && accessories[type]) {
-                        equipField.value += `**${accessories[type]}** - ${acc.name}\n`
+                if (!lite) {
+                    let attackField = {
+                        name: `:crossed_swords: Attack :small_orange_diamond: ${stats.point_ability
+                            .offense_point}P`,
+                        value:
+                            `**Attack Power** - ${stats.total_ability.attack_power_value}\n` +
+                            `**Accuracy** - ${stats.total_ability.attack_hit_value} (${stats
+                                .total_ability.attack_hit_rate}%)\n` +
+                            `**Critical** - ${stats.total_ability.attack_critical_value} (${stats
+                                .total_ability.attack_critical_rate}%)\n` +
+                            `**Critical Damage** - ${stats.total_ability
+                                .attack_critical_damage_value} (${stats.total_ability
+                                .attack_critical_damage_rate}%)\n`,
+                        inline: true
                     }
-                })
 
-                let ssCount = countSS(equip.soulshield.pieceNames)
-                let soulshieldField = {
-                    name: 'Soul Shield',
-                    value: ''
+                    classElements[character.classCode].forEach(e => {
+                        let value = stats.total_ability[e]
+                        let rate = stats.total_ability[e.substr(0, e.length - 5) + 'rate']
+                        attackField.value += `**${elements[e]}** - ${value} (${rate}%)\t\n`
+                    })
+
+                    let defenseField = {
+                        name: `:shield: Defense :small_orange_diamond: ${stats.point_ability
+                            .defense_point}P`,
+                        value:
+                            `**HP** - ${stats.total_ability.max_hp}\n` +
+                            `**Defense** - ${stats.total_ability.defend_power_value} (${stats
+                                .total_ability.defend_physical_damage_reduce_rate}%)\n` +
+                            `**Evasion** - ${stats.total_ability.defend_dodge_value} (${stats
+                                .total_ability.defend_dodge_rate}%)\n` +
+                            `**Block** - ${stats.total_ability.defend_parry_value} (${stats
+                                .total_ability.defend_parry_rate}%)\n` +
+                            `**Critical Defense** - ${stats.total_ability
+                                .defend_critical_value} (${stats.total_ability
+                                .defend_critical_rate}%)`,
+                        inline: true
+                    }
+
+                    let equipField = {
+                        name: ':dagger: Equipment',
+                        value: `**Weapon** - ${equip.weapon.name}\n`
+                    }
+
+                    equip.accessories.forEach(acc => {
+                        let type = acc.type
+                        if (acc.grade !== 'empty' && accessories[type]) {
+                            equipField.value += `**${accessories[type]}** - ${acc.name}\n`
+                        }
+                    })
+
+                    let ssCount = countSS(equip.soulshield.pieceNames)
+                    let soulshieldField = {
+                        name: 'Soul Shield',
+                        value: ''
+                    }
+                    for (let set in ssCount) {
+                        soulshieldField.value += `[${ssCount[set]}] ${set}\n`
+                    }
+
+                    fields = [attackField, defenseField, equipField, soulshieldField]
                 }
-                for (let set in ssCount) {
-                    soulshieldField.value += `[${ssCount[set]}] ${set}\n`
-                }
+
                 let embed = {
                     title: `${character.name} [${character.account}]`,
                     color: 0x00bfff,
@@ -147,7 +154,7 @@ async function getCharacterEmbed(region, name) {
                     description: `Level ${character.level[0]}${character.level[1]
                         ? ` • HM Level ${character.level[1]}`
                         : ''}\n${character.className}\n${character.server}`,
-                    fields: [attackField, defenseField, equipField, soulshieldField],
+                    fields: fields,
                     footer: {
                         text: 'BnSTree',
                         icon_url: 'https://bnstree.com/android-chrome-192x192.png'
