@@ -15,6 +15,7 @@ const characterQuery = gql`
             }
             statData: stats
             equipData: equipment
+            characterVotes: votes
         }
     }
 `
@@ -77,8 +78,8 @@ async function getCharacterEmbed(region, name, lite = false) {
                 let character = json.data.Character.general
                 let stats = json.data.Character.statData
                 let equip = json.data.Character.equipData
-                let fields = []
 
+                let fields = []
                 if (!lite) {
                     let attackField = {
                         name: `:crossed_swords: Attack :small_orange_diamond: ${stats.point_ability
@@ -142,6 +143,13 @@ async function getCharacterEmbed(region, name, lite = false) {
                     fields = [attackField, defenseField, equipField, soulshieldField]
                 }
 
+                let desc = `:two_hearts:  ${json.data.Character.characterVotes}\n`
+                desc += `Level ${character.level[0]}${character.level[1]
+                    ? ` • HM Level ${character.level[1]}`
+                    : ''}\n`
+                desc += `${character.className}\n`
+                desc += `${character.server}`
+
                 let embed = {
                     title: `${character.name} [${character.account}]`,
                     color: 0x00bfff,
@@ -151,9 +159,7 @@ async function getCharacterEmbed(region, name, lite = false) {
                     thumbnail: {
                         url: `https://static.bnstree.com/images/class/${character.classCode}.png`
                     },
-                    description: `Level ${character.level[0]}${character.level[1]
-                        ? ` • HM Level ${character.level[1]}`
-                        : ''}\n${character.className}\n${character.server}`,
+                    description: desc,
                     fields: fields,
                     footer: {
                         text: 'BnSTree',
