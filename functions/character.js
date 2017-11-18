@@ -133,7 +133,7 @@ async function getCharacterEmbed(region, name) {
                     value: ''
                 }
                 for (let set in ssCount) {
-                    soulshieldField.value += `[${ssCount[set]}] ${set}`
+                    soulshieldField.value += `[${ssCount[set]}] ${set}\n`
                 }
                 let embed = {
                     title: `${character.name} [${character.account}]`,
