@@ -49,8 +49,12 @@ client.on('message', async message => {
                     let region = args[0]
                     let name = args.splice(1).join(' ')
 
-                    let embed = await getCharacterEmbed(region, name)
-                    message.channel.send('', {embed: embed})
+                    if (region) {
+                        let embed = await getCharacterEmbed(region, name)
+                        message.channel.send('', {embed: embed})
+                    } else {
+                        message.channel.send('', {embed: {title: 'Enter region'}})
+                    }
                     break
                 }
                 case 'market': {
@@ -61,8 +65,12 @@ client.on('message', async message => {
                         exact = flags.indexOf('-e') !== -1 || flags.indexOf('-exact') !== -1
                     }
 
-                    let embed = await getMarketEmbed(region, query, exact)
-                    message.channel.send('', {embed: embed})
+                    if (region) {
+                        let embed = await getMarketEmbed(region, query, exact)
+                        message.channel.send('', {embed: embed})
+                    } else {
+                        message.channel.send('', {embed: {title: 'Enter region'}})
+                    }
                     break
                 }
                 case 'help': {

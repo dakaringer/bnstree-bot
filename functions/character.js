@@ -70,7 +70,7 @@ async function getCharacterEmbed(region, name) {
                 query: characterQuery,
                 variables: {
                     name: name,
-                    region: region
+                    region: region.toLowerCase()
                 }
             })
             .then(json => {
@@ -156,7 +156,7 @@ async function getCharacterEmbed(region, name) {
                 resolve(embed)
             })
             .catch(e => {
-                console.log(e)
+                console.error(e)
                 resolve({title: 'Character not found'})
             })
     })
