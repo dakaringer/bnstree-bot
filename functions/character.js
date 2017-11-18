@@ -84,35 +84,35 @@ async function getCharacterEmbed(region, name, lite = false) {
                         name: `:crossed_swords: Attack :small_orange_diamond: ${stats.point_ability
                             .offense_point}P`,
                         value:
-                            `**Attack Power** - ${stats.total_ability.attack_power_value}\n` +
-                            `**Accuracy** - ${stats.total_ability.attack_hit_value} (${stats
-                                .total_ability.attack_hit_rate}%)\n` +
-                            `**Critical** - ${stats.total_ability.attack_critical_value} (${stats
-                                .total_ability.attack_critical_rate}%)\n` +
-                            `**Critical Damage** - ${stats.total_ability
+                            `**Attack Power**\t ${stats.total_ability.attack_power_value}\t\n` +
+                            `**Accuracy**\t ${stats.total_ability.attack_hit_value} (${stats
+                                .total_ability.attack_hit_rate}%)\t\n` +
+                            `**Critical**\t ${stats.total_ability.attack_critical_value} (${stats
+                                .total_ability.attack_critical_rate}%)\t\n` +
+                            `**Critical Damage**\t ${stats.total_ability
                                 .attack_critical_damage_value} (${stats.total_ability
-                                .attack_critical_damage_rate}%)\n`,
+                                .attack_critical_damage_rate}%)\t\n`,
                         inline: true
                     }
 
                     classElements[character.classCode].forEach(e => {
                         let value = stats.total_ability[e]
                         let rate = stats.total_ability[e.substr(0, e.length - 5) + 'rate']
-                        attackField.value += `**${elements[e]}** - ${value} (${rate}%)\t\n`
+                        attackField.value += `**${elements[e]}**\t ${value} (${rate}%)\t\n`
                     })
 
                     let defenseField = {
                         name: `:shield: Defense :small_orange_diamond: ${stats.point_ability
                             .defense_point}P`,
                         value:
-                            `**HP** - ${stats.total_ability.max_hp}\n` +
-                            `**Defense** - ${stats.total_ability.defend_power_value} (${stats
+                            `**HP**\t ${stats.total_ability.max_hp}\n` +
+                            `**Defense**\t ${stats.total_ability.defend_power_value} (${stats
                                 .total_ability.defend_physical_damage_reduce_rate}%)\n` +
-                            `**Evasion** - ${stats.total_ability.defend_dodge_value} (${stats
+                            `**Evasion**\t ${stats.total_ability.defend_dodge_value} (${stats
                                 .total_ability.defend_dodge_rate}%)\n` +
-                            `**Block** - ${stats.total_ability.defend_parry_value} (${stats
+                            `**Block**\t ${stats.total_ability.defend_parry_value} (${stats
                                 .total_ability.defend_parry_rate}%)\n` +
-                            `**Critical Defense** - ${stats.total_ability
+                            `**Critical Defense**\t ${stats.total_ability
                                 .defend_critical_value} (${stats.total_ability
                                 .defend_critical_rate}%)`,
                         inline: true
@@ -120,13 +120,13 @@ async function getCharacterEmbed(region, name, lite = false) {
 
                     let equipField = {
                         name: ':dagger: Equipment',
-                        value: `**Weapon** - ${equip.weapon.name}\n`
+                        value: `**Weapon**\t ${equip.weapon.name}\n`
                     }
 
                     equip.accessories.forEach(acc => {
                         let type = acc.type
                         if (acc.grade !== 'empty' && accessories[type]) {
-                            equipField.value += `**${accessories[type]}** - ${acc.name}\n`
+                            equipField.value += `**${accessories[type]}**\t ${acc.name}\n`
                         }
                     })
 
