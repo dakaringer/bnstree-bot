@@ -86,8 +86,6 @@ async function getCharacterEmbed(region, name, lite = false) {
                             .offense_point}P`,
                         value:
                             `**Attack Power** ${stats.total_ability.attack_power_value}\t\n` +
-                            `**Accuracy** ${stats.total_ability.attack_hit_value} (${stats
-                                .total_ability.attack_hit_rate}%)\t\n` +
                             `**Critical** ${stats.total_ability.attack_critical_value} (${stats
                                 .total_ability.attack_critical_rate}%)\t\n` +
                             `**Critical Damage** ${stats.total_ability
@@ -143,12 +141,13 @@ async function getCharacterEmbed(region, name, lite = false) {
                     fields = [attackField, defenseField, equipField, soulshieldField]
                 }
 
-                let desc = `:two_hearts:  ${json.data.Character.characterVotes}\n`
-                desc += `Level ${character.level[0]}${character.level[1]
-                    ? ` • HM Level ${character.level[1]}`
-                    : ''}\n`
-                desc += `${character.className}\n`
-                desc += `${character.server}`
+                let desc =
+                    `:two_hearts:  ${json.data.Character.characterVotes}\n` +
+                    `Level ${character.level[0]}${character.level[1]
+                        ? ` • HM Level ${character.level[1]}`
+                        : ''}\n` +
+                    `${character.className}\n` +
+                    `${character.server}`
 
                 let embed = {
                     title: `${character.name} [${character.account}]`,
