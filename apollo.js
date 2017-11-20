@@ -4,7 +4,10 @@ const {HttpLink} = require('apollo-link-http')
 const {InMemoryCache} = require('apollo-cache-inmemory')
 
 const gqlClient = new ApolloClient({
-    link: new HttpLink({uri: 'https://api.bnstree.com/graphql', fetch: fetch}),
+    link: new HttpLink({
+        uri: 'https://api.bnstree.com/graphql',
+        fetch: fetch
+    }),
     cache: new InMemoryCache()
 })
 
