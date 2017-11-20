@@ -137,6 +137,9 @@ async function getCharacterEmbed(region, name, lite = false) {
                     for (let set in ssCount) {
                         soulshieldField.value += `[${ssCount[set]}] ${set}\n`
                     }
+                    if (soulshieldField.value.trim() === '') {
+                        soulshieldField.value = 'None'
+                    }
 
                     fields = [attackField, defenseField, equipField, soulshieldField]
                 }
