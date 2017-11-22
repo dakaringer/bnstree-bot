@@ -63,7 +63,7 @@ function parseCurrency(price) {
     return [gold, silver, copper]
 }
 
-async function getMarketEmbed(region, query, exact = false, coins) {
+async function getMarketEmbed(region, query, exact = false, emojis) {
     return new Promise((resolve, reject) => {
         gqlClient
             .query({
@@ -86,13 +86,13 @@ async function getMarketEmbed(region, query, exact = false, coins) {
                     fields = [
                         {
                             name: 'Price',
-                            value: `${price[0][0]}${coins[0]} ${price[0][1]}${coins[1]} ${price[0][2]}${coins[2]}`
+                            value: `${price[0][0]}${emojis.gold} ${price[0][1]}${emojis.silver} ${price[0][2]}${emojis.copper}`
                         },
                         {
                             name: 'Change',
                             value: `${price[2] >= 0
-                                ? '▲'
-                                : '▼'} ${price[1][0]}${coins[0]} ${price[1][1]}${coins[1]} ${price[1][2]}${coins[2]} (${price[3].toFixed(
+                                ? emojis.up
+                                : emojis.down} ${price[1][0]}${emojis.gold} ${price[1][1]}${emojis.silver} ${price[1][2]}${emojis.copper} (${price[3].toFixed(
                                 2
                             )}%)`
                         }
