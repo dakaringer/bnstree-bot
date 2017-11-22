@@ -65,8 +65,14 @@ client.on('message', async message => {
                         exact = flags.indexOf('-e') !== -1 || flags.indexOf('-exact') !== -1
                     }
 
+                    let coins = [
+                        client.emojis.get('382852281764282369'),
+                        client.emojis.get('382852281907019777'),
+                        client.emojis.get('382852282028523520')
+                    ]
+
                     if (region) {
-                        let embed = await getMarketEmbed(region, query, exact)
+                        let embed = await getMarketEmbed(region, query, exact, coins)
                         message.channel.send('', {embed: embed})
                     } else {
                         message.channel.send('', {embed: {title: 'Enter region'}})
