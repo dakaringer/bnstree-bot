@@ -32,7 +32,13 @@ client.on('message', async message => {
             let region = characterMatch[1]
             let name = decodeURIComponent(characterMatch[2])
 
-            let embed = await getCharacterEmbed(region, name, true)
+            let emojis = {
+                attack: client.emojis.get('385043651966795778'),
+                defense: client.emojis.get('385043652445077504'),
+                equipment: client.emojis.get('385044342626058241')
+            }
+
+            let embed = await getCharacterEmbed(region, name, emojis, true)
             message.channel.send('', {embed: embed})
         } else if (message.content.startsWith('!')) {
             let flagRe = /(-\w+)/g
@@ -49,8 +55,14 @@ client.on('message', async message => {
                     let region = args[0]
                     let name = args.splice(1).join(' ')
 
+                    let emojis = {
+                        attack: client.emojis.get('385043651966795778'),
+                        defense: client.emojis.get('385043652445077504'),
+                        equipment: client.emojis.get('385044342626058241')
+                    }
+
                     if (region) {
-                        let embed = await getCharacterEmbed(region, name)
+                        let embed = await getCharacterEmbed(region, name, emojis)
                         message.channel.send('', {embed: embed})
                     } else {
                         message.channel.send('', {embed: {title: 'Enter region'}})
