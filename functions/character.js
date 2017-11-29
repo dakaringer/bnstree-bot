@@ -95,6 +95,7 @@ async function getCharacterEmbed(region, name, emojis, lite = false) {
                             } (${stats.total_ability.attack_critical_damage_rate}%)\t\n`,
                         inline: true
                     }
+                    fields.push(attackField)
 
                     classElements[character.classCode].forEach(e => {
                         let value = stats.total_ability[e]
@@ -122,33 +123,34 @@ async function getCharacterEmbed(region, name, emojis, lite = false) {
                             }%)`,
                         inline: true
                     }
-
-                    let equipField = {
-                        name: `${emojis.equipment} Equipment`,
-                        value: `**Weapon** ${equip.weapon.name}\n`
-                    }
-
-                    equip.accessories.forEach(acc => {
-                        let type = acc.type
-                        if (acc.grade !== 'empty' && accessories[type]) {
-                            equipField.value += `**${accessories[type]}** ${acc.name}\n`
-                        }
-                    })
-
-                    let ssCount = countSS(equip.soulshield.pieceNames)
-                    let soulshieldField = {
-                        name: 'Soul Shield',
-                        value: ''
-                    }
-                    for (let set in ssCount) {
-                        soulshieldField.value += `[${ssCount[set]}] ${set}\n`
-                    }
-                    if (soulshieldField.value.trim() === '') {
-                        soulshieldField.value = 'None'
-                    }
-
-                    fields = [attackField, defenseField, equipField, soulshieldField]
+                    fields.push(defenseField)
                 }
+
+                let equipField = {
+                    name: `${emojis.equipment} Equipment`,
+                    value: `**Weapon** ${equip.weapon.name}\n`
+                }
+
+                equip.accessories.forEach(acc => {
+                    let type = acc.type
+                    if (acc.grade !== 'empty' && accessories[type]) {
+                        equipField.value += `**${accessories[type]}** ${acc.name}\n`
+                    }
+                })
+                fields.push(equipField)
+
+                let ssCount = countSS(equip.soulshield.pieceNames)
+                let soulshieldField = {
+                    name: 'Soul Shield',
+                    value: ''
+                }
+                for (let set in ssCount) {
+                    soulshieldField.value += `[${ssCount[set]}] ${set}\n`
+                }
+                if (soulshieldField.value.trim() === '') {
+                    soulshieldField.value = 'None'
+                }
+                fields.push(soulshieldField)
 
                 let desc =
                     `:two_hearts:  ${json.data.Character.characterVotes}\n` +
