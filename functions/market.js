@@ -1,5 +1,6 @@
 const gql = require('graphql-tag')
 const gqlClient = require('../apollo')
+const logger = require('../logger')
 
 const itemQuery = gql`
     query($query: String!, $region: String!, $exact: Boolean) {
@@ -86,15 +87,17 @@ async function getMarketEmbed(region, query, exact = false, emojis) {
                     fields = [
                         {
                             name: 'Price',
-                            value: `${price[0][0]}${emojis.gold} ${price[0][1]}${emojis.silver} ${price[0][2]}${emojis.copper}`
+                            value: `${price[0][0]}${emojis.gold} ${price[0][1]}${emojis.silver} ${
+                                price[0][2]
+                            }${emojis.copper}`
                         },
                         {
                             name: 'Change',
-                            value: `${price[2] >= 0
-                                ? emojis.up
-                                : emojis.down} ${price[1][0]}${emojis.gold} ${price[1][1]}${emojis.silver} ${price[1][2]}${emojis.copper} (${price[3].toFixed(
-                                2
-                            )}%)`
+                            value: `${price[2] >= 0 ? emojis.up : emojis.down} ${price[1][0]}${
+                                emojis.gold
+                            } ${price[1][1]}${emojis.silver} ${price[1][2]}${
+                                emojis.copper
+                            } (${price[3].toFixed(2)}%)`
                         }
                     ]
                 } else {
@@ -125,6 +128,7 @@ async function getMarketEmbed(region, query, exact = false, emojis) {
                 resolve(embed)
             })
             .catch(e => {
+                logger.error(e)
                 resolve({title: 'Item not found'})
             })
     })

@@ -1,5 +1,6 @@
 const gql = require('graphql-tag')
 const gqlClient = require('../apollo')
+const logger = require('../logger')
 
 const characterQuery = gql`
     query($name: String!, $region: String!) {
@@ -179,7 +180,7 @@ async function getCharacterEmbed(region, name, emojis, lite = false) {
                 resolve(embed)
             })
             .catch(e => {
-                console.error(e)
+                logger.error(e)
                 resolve({title: 'Character not found'})
             })
     })

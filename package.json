@@ -11,7 +11,8 @@
         "dotenv": "^4.0.0",
         "graphql": "^0.11.7",
         "graphql-tag": "^2.5.0",
-        "node-fetch": "^1.7.3"
+        "node-fetch": "^1.7.3",
+        "winston": "^3.0.0-rc1"
     },
     "author": "dakaringer"
 }

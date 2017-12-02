@@ -2,6 +2,7 @@ require('dotenv').config({silent: true})
 const Discord = require('discord.js')
 const getCharacterEmbed = require('./functions/character')
 const getMarketEmbed = require('./functions/market')
+const logger = require('./logger')
 
 const client = new Discord.Client()
 const token = process.env.DISCORD_TOKEN
@@ -9,7 +10,7 @@ const token = process.env.DISCORD_TOKEN
 //https://discordapp.com/oauth2/authorize?client_id=275878450227576832&scope=bot
 
 client.on('ready', () => {
-    console.log('I am ready!')
+    logger.info('Bot ready!')
 })
 
 const helpMsg = `\`\`\`
