@@ -81,7 +81,7 @@ async function getCharacterEmbed(region, name, emojis, lite = false) {
                 let equip = json.data.Character.equipData
 
                 let fields = []
-                if (!lite) {
+                if (!lite && stats) {
                     let attackField = {
                         name: `${emojis.attack} Attack :small_orange_diamond: ${
                             stats.point_ability.offense_point
