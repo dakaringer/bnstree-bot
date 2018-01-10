@@ -12,6 +12,7 @@ const token = process.env.DISCORD_TOKEN
 
 client.on('ready', () => {
     logger.info('Bot ready!')
+    client.user.setPresence({status: 'online', game: {name: '!help for commands'}})
 })
 
 const helpMsg = `\`\`\`
