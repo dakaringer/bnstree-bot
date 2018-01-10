@@ -2,6 +2,7 @@ require('dotenv').config({silent: true})
 const Discord = require('discord.js')
 const getCharacterEmbed = require('./functions/character')
 const getMarketEmbed = require('./functions/market')
+const getDiceEmbed = require('./functions/dice')
 const logger = require('./logger')
 
 const client = new Discord.Client()
@@ -17,11 +18,13 @@ const helpMsg = `\`\`\`
 Official BnSTree Discord Bot
 
 Commands:
+  !roll (min=0) (max=100)           Roll a dice
+
   !character [region] [name]        Search character profile
 
   !market [region] [item]           Search marketplace
-  Options:
-    -e, -exact                      Search exact item name
+    Options:
+      -e, -exact                    Search exact item name
 \`\`\``
 
 client.on('message', async message => {
@@ -52,6 +55,26 @@ client.on('message', async message => {
             args = args.splice(1)
 
             switch (cmd) {
+                case 'dice': {
+                    let min = 1
+                    let max = 100
+                    if (args.length === 1) {
+                        max = parseInt(args[0], 10)
+                    } else if (args.length === 2) {
+                        min = parseInt(args[0])
+                        max = parseInt(args[1])
+                    }
+
+                    if (min > max) {
+                        let temp = min
+                        min = max
+                        max = temp
+                    }
+                    let user = message.author.username
+                    let embed = getDiceEmbed(user, min, max)
+                    message.channel.send('', {embed: embed})
+                    break
+                }
                 case 'character': {
                     let region = args[0]
                     let name = args.splice(1).join(' ')
