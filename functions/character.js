@@ -80,7 +80,16 @@ async function getCharacterEmbed(region, name, emojis, lite = false) {
                 let stats = json.data.Character.statData
                 let equip = json.data.Character.equipData
 
-                if (!stats || !character || !equip) throw new Error('Character not found')
+                if (!character || character.notFound) {
+                    let msg = 'Character not found.'
+                    if (character.nameChanged) {
+                        msg = 'Character not found. Name may have been changed.'
+                    }
+                    if (character.unavailable) {
+                        msg = 'Server unavailable.'
+                    }
+                    throw new Error(msg)
+                }
 
                 let fields = []
                 if (!lite) {
@@ -183,7 +192,7 @@ async function getCharacterEmbed(region, name, emojis, lite = false) {
             })
             .catch(e => {
                 logger.error(e)
-                resolve({title: 'Character not found'})
+                resolve({title: e.message})
             })
     })
 }
