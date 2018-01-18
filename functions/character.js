@@ -5,15 +5,7 @@ const logger = require('../logger')
 const characterQuery = gql`
     query($name: String!, $region: String!) {
         Character(name: $name, region: $region) {
-            general {
-                account
-                region
-                name
-                className
-                classCode
-                level
-                server
-            }
+            general 
             statData: stats
             equipData: equipment
             characterVotes: votes
@@ -96,14 +88,14 @@ async function getCharacterEmbed(region, name, emojis, lite = false) {
                     let attackField = {
                         name: `${emojis.attack} Attack :small_orange_diamond: ${
                             stats.point_ability.offense_point
-                        }P`,
+                            }P`,
                         value:
                             `**Attack Power** ${stats.total_ability.attack_power_value}\t\n` +
                             `**Critical** ${stats.total_ability.attack_critical_value} (${
-                                stats.total_ability.attack_critical_rate
+                            stats.total_ability.attack_critical_rate
                             }%)\t\n` +
                             `**Critical Damage** ${
-                                stats.total_ability.attack_critical_damage_value
+                            stats.total_ability.attack_critical_damage_value
                             } (${stats.total_ability.attack_critical_damage_rate}%)\t\n`,
                         inline: true
                     }
@@ -118,20 +110,20 @@ async function getCharacterEmbed(region, name, emojis, lite = false) {
                     let defenseField = {
                         name: `${emojis.defense} Defense :small_orange_diamond: ${
                             stats.point_ability.defense_point
-                        }P`,
+                            }P`,
                         value:
                             `**HP** ${stats.total_ability.max_hp}\n` +
                             `**Defense** ${stats.total_ability.defend_power_value} (${
-                                stats.total_ability.defend_physical_damage_reduce_rate
+                            stats.total_ability.defend_physical_damage_reduce_rate
                             }%)\n` +
                             `**Evasion** ${stats.total_ability.defend_dodge_value} (${
-                                stats.total_ability.defend_dodge_rate
+                            stats.total_ability.defend_dodge_rate
                             }%)\n` +
                             `**Block** ${stats.total_ability.defend_parry_value} (${
-                                stats.total_ability.defend_parry_rate
+                            stats.total_ability.defend_parry_rate
                             }%)\n` +
                             `**Critical Defense** ${stats.total_ability.defend_critical_value} (${
-                                stats.total_ability.defend_critical_rate
+                            stats.total_ability.defend_critical_rate
                             }%)`,
                         inline: true
                     }
@@ -167,7 +159,7 @@ async function getCharacterEmbed(region, name, emojis, lite = false) {
                 let desc =
                     `:two_hearts:  ${json.data.Character.characterVotes}\n` +
                     `Level ${character.level[0]}${
-                        character.level[1] ? ` • HM Level ${character.level[1]}` : ''
+                    character.level[1] ? ` • HM Level ${character.level[1]}` : ''
                     }\n` +
                     `${character.className}\n` +
                     `${character.server}`
@@ -192,7 +184,7 @@ async function getCharacterEmbed(region, name, emojis, lite = false) {
             })
             .catch(e => {
                 logger.error(e)
-                resolve({title: e.message})
+                resolve({ title: e.message })
             })
     })
 }
