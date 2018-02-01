@@ -74,10 +74,10 @@ async function getCharacterEmbed(region, name, emojis, lite = false) {
 
                 if (!character || character.notFound) {
                     let msg = 'Character not found.'
-                    if (character.nameChanged) {
+                    if (character && character.nameChanged) {
                         msg = 'Character not found. Name may have been changed.'
                     }
-                    if (character.unavailable) {
+                    if (character && character.unavailable) {
                         msg = 'Server unavailable.'
                     }
                     throw new Error(msg)
