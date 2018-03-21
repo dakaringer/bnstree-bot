@@ -17,5 +17,33 @@
         "twitter": "^1.7.1",
         "winston": "^3.0.0-rc1"
     },
+    "devDependencies": {
+        "babel-eslint": "^8.2.2",
+        "eslint": "^4.19.0",
+        "eslint-config-standard": "^11.0.0",
+        "eslint-plugin-import": "^2.9.0",
+        "eslint-plugin-node": "^6.0.1",
+        "eslint-plugin-promise": "^3.7.0",
+        "eslint-plugin-standard": "^3.0.1"
+    },
+    "eslintConfig": {
+        "env": {
+            "node": true,
+            "es6": true
+        },
+        "extends": "standard",
+        "rules": {
+            "indent": [
+                "warn",
+                4,
+                {
+                    "SwitchCase": 1
+                }
+            ],
+            "space-before-function-paren": 0,
+            "spaced-comment": 0,
+            "no-unused-vars": 1
+        }
+    },
     "author": "dakaringer"
 }
