@@ -36,39 +36,39 @@ client.stream('statuses/filter', { follow: '819625154, 3521186773, 8642280343704
             tweets.insert(tweet)
             deleteCache('graphql_twitter')
 
+            let t = tweet.extended_tweet || tweet
+            let text = t.full_text || t.text
+            if (t.display_text_range) {
+                text = text.substr(0, t.display_text_range[1])
+            }
+
+            let embed = {
+                title: 'Tweet',
+                url: `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`,
+                author: {
+                    name: `@${tweet.user.screen_name}`,
+                    url: `https://twitter.com/${tweet.user.screen_name}`
+                },
+                description: text
+            }
+
+            if (t.entities.media && t.entities.media[0].media_url_https) {
+                embed.image = {
+                    url: t.entities.media[0].media_url_https
+                }
+            }
+
+            let message = {
+                username: `${tweet.user.name}`,
+                avatar_url: tweet.user.profile_image_url_https,
+                embeds: [embed]
+            }
+
             webhooks.find({}).toArray((err, docs) => {
                 if (err) logger.error(err)
 
-                let t = tweet.extended_tweet || tweet
-                let text = t.full_text || t.text
-                if (t.display_text_range) {
-                    text = text.substr(0, t.display_text_range[1])
-                }
-
-                let embed = {
-                    title: 'Tweet',
-                    url: `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`,
-                    author: {
-                        name: `@${tweet.user.screen_name}`,
-                        url: `https://twitter.com/${tweet.user.screen_name}`
-                    },
-                    description: text
-                }
-
-                if (t.entities.media && t.entities.media[0].media_url_https) {
-                    embed.image = {
-                        url: t.entities.media[0].media_url_https
-                    }
-                }
-
-                let message = {
-                    username: `${tweet.user.name}`,
-                    avatar_url: tweet.user.profile_image_url_https,
-                    embeds: [embed]
-                }
-
-                docs.forEach(doc => {
-                    let url = doc.url
+                docs.forEach(webhook => {
+                    let url = webhook.url
 
                     request({
                         url: url,
