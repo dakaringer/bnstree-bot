@@ -1,4 +1,4 @@
-require('dotenv').config({silent: true})
+require('dotenv').config({ silent: true })
 const Discord = require('discord.js')
 const getCharacterEmbed = require('./functions/character')
 const getMarketEmbed = require('./functions/market')
@@ -12,7 +12,7 @@ const token = process.env.DISCORD_TOKEN
 
 client.on('ready', () => {
     logger.info('Bot ready!')
-    client.user.setPresence({status: 'online', game: {name: '!help for commands'}})
+    client.user.setPresence({ status: 'online', game: { name: '!help for commands' } })
 })
 
 const helpMsg = `\`\`\`
@@ -44,7 +44,7 @@ client.on('message', async message => {
             }
 
             let embed = await getCharacterEmbed(region, name, emojis, true)
-            message.channel.send('', {embed: embed})
+            message.channel.send('', { embed: embed })
         } else if (message.content.startsWith('!')) {
             let flagRe = /(-\w+)/g
             let flags = message.content.match(flagRe)
@@ -73,7 +73,7 @@ client.on('message', async message => {
                     }
                     let user = message.author.username
                     let embed = getDiceEmbed(user, min, max)
-                    message.channel.send('', {embed: embed})
+                    message.channel.send('', { embed: embed })
                     break
                 }
                 case 'character': {
@@ -88,9 +88,9 @@ client.on('message', async message => {
 
                     if (region) {
                         let embed = await getCharacterEmbed(region, name, emojis)
-                        message.channel.send('', {embed: embed})
+                        message.channel.send('', { embed: embed })
                     } else {
-                        message.channel.send('', {embed: {title: 'Enter region'}})
+                        message.channel.send('', { embed: { title: 'Enter region' } })
                     }
                     break
                 }
@@ -112,9 +112,9 @@ client.on('message', async message => {
 
                     if (region) {
                         let embed = await getMarketEmbed(region, query, exact, emojis)
-                        message.channel.send('', {embed: embed})
+                        message.channel.send('', { embed: embed })
                     } else {
-                        message.channel.send('', {embed: {title: 'Enter region'}})
+                        message.channel.send('', { embed: { title: 'Enter region' } })
                     }
                     break
                 }
@@ -129,3 +129,8 @@ client.on('message', async message => {
 })
 
 client.login(token)
+
+const dbConfig = require('./db-config')
+dbConfig.connect(db => {
+    require('./functions/twitter')
+})

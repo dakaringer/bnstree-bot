@@ -11,7 +11,10 @@
         "dotenv": "^5.0.0",
         "graphql": "^0.13.1",
         "graphql-tag": "^2.8.0",
+        "mongodb": "^3.0.4",
         "node-fetch": "^2.0.0",
+        "redis": "^2.8.0",
+        "twitter": "^1.7.1",
         "winston": "^3.0.0-rc1"
     },
     "author": "dakaringer"
